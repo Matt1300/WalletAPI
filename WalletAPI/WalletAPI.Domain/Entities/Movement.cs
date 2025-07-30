@@ -1,8 +1,8 @@
 ﻿namespace WalletAPI.Domain.Entities;
 public enum MovementType
 {
-    Credit,
-    Debit
+    Crédito = 1,
+    Débito
 }
 public class Movement
 {
@@ -17,10 +17,7 @@ public class Movement
     private Movement() { }
 
     public Movement(int walletId, decimal amount, MovementType type)
-    {
-        if (amount <= 0)
-            throw new ArgumentException("El monto debe ser positivo.", nameof(amount));
-
+    {      
         WalletId = walletId;
         Amount = amount;
         Type = type;

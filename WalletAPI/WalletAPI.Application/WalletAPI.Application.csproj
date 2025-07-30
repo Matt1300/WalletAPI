@@ -11,7 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Movements\Get\" />
     <Folder Include="Wallets\Get\" />
     <Folder Include="Wallets\Delete\" />
     <Folder Include="Wallets\Update\" />

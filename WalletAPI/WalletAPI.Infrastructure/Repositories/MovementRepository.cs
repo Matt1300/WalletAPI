@@ -12,6 +12,15 @@ public class MovementRepository(ApplicationDbContext _context) : IMovementReposi
         await _context.SaveChangesAsync();
     }
 
+    public Task<List<Movement>> GetAllTransfersAsync(CancellationToken cancellationToken)
+    {
+        return _context.Movements
+            .AsNoTracking()
+            .Include(m => m.Wallet)
+            .OrderByDescending(m => m.CreatedAt)
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<Movement> GetByIdAsync(int id)
     {
         return await _context.Movements.FindAsync(id);

@@ -16,8 +16,7 @@ public class WalletsController : ControllerBase
 
     public WalletsController(
         ICommandHandler<CreateWalletCommand, Result<int>> createWalletHandler,
-        IQueryHandler<GetWalletByIdQuery, Result<WalletDto>> getWalletByIdHandler,
-        ICommandHandler<TransferBalanceCommand, Result> transferBalanceHandler)
+        IQueryHandler<GetWalletByIdQuery, Result<WalletDto>> getWalletByIdHandler)
     {
         _createWalletHandler = createWalletHandler;
         _getWalletByIdHandler = getWalletByIdHandler;

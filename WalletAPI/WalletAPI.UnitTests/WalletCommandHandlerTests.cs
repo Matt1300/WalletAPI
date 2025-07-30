@@ -3,7 +3,7 @@ using WalletAPI.Application.Wallets.Create;
 using WalletAPI.Domain.Entities;
 using WalletAPI.Domain.Repositories;
 
-namespace WalletAPI.UnitTests.Wallets;
+namespace WalletAPI.UnitTests;
 
 public class WalletCommandHandlerTests
 {

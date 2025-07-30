@@ -1,14 +1,14 @@
 ﻿namespace WalletAPI.Domain.Entities;
 public class Wallet
 {
-    public int Id { get; private set; }
-    public string DocumentId { get; private set; }
-    public string Name { get; private set; }
-    public decimal Balance { get; private set; }
-    public DateTime CreatedAt { get; private set; }
-    public DateTime UpdatedAt { get; private set; }
+    public int Id { get; set; }
+    public string DocumentId { get; set; }
+    public string Name { get; set; }
+    public decimal Balance { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
 
-    public ICollection<Movement> Movements { get; private set; } 
+    public ICollection<Movement> Movements { get; set; } 
 
     private Wallet() { }
 

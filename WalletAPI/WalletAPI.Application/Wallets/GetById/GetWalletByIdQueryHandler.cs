@@ -4,9 +4,9 @@ using WalletAPI.Application.Shared;
 
 namespace WalletAPI.Application.Wallets.GetById;
 
-public class GetByIdQueryHandler(IWalletRepository _walletRepository) : IQueryHandler<GetByIdQuery, Result<WalletDto>>
+public class GetWalletByIdQueryHandler(IWalletRepository _walletRepository) : IQueryHandler<GetWalletByIdQuery, Result<WalletDto>>
 {
-    public async Task<Result<WalletDto>> Handle(GetByIdQuery query, CancellationToken cancellationToken)
+    public async Task<Result<WalletDto>> Handle(GetWalletByIdQuery query, CancellationToken cancellationToken)
     {
         var wallet = await _walletRepository.GetByIdAsync(query.Id, cancellationToken);
         if (wallet == null)

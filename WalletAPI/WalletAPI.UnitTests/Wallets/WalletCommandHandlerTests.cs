@@ -5,7 +5,7 @@ using WalletAPI.Domain.Repositories;
 
 namespace WalletAPI.UnitTests.Wallets;
 
-public class CreateWalletCommandHandlerTests
+public class WalletCommandHandlerTests
 {
     [Fact]
     public async Task Handle_ShouldReturnFailure_WhenWalletExists()

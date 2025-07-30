@@ -13,7 +13,6 @@ public class WalletsController : ControllerBase
 {
     private readonly ICommandHandler<CreateWalletCommand, Result<int>> _createWalletHandler;
     private readonly IQueryHandler<GetWalletByIdQuery, Result<WalletDto>> _getWalletByIdHandler;
-    private readonly ICommandHandler<TransferBalanceCommand, Result> _transferBalanceHandler;
 
     public WalletsController(
         ICommandHandler<CreateWalletCommand, Result<int>> createWalletHandler,
@@ -22,7 +21,6 @@ public class WalletsController : ControllerBase
     {
         _createWalletHandler = createWalletHandler;
         _getWalletByIdHandler = getWalletByIdHandler;
-        _transferBalanceHandler = transferBalanceHandler;
     }
 
     /// <summary>
@@ -33,21 +31,18 @@ public class WalletsController : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status409Conflict)] // Para DocumentId duplicado
     public async Task<IActionResult> CreateWallet([FromBody] CreateWalletCommand command, CancellationToken cancellationToken)
     {
         var result = await _createWalletHandler.Handle(command, cancellationToken);
 
         if (result.Succeeded)
         {
-            return StatusCode(StatusCodes.Status201Created, new { Id = result.Value, Message = result.Message });
+            return CreatedAtAction(
+                nameof(GetWalletById),
+                new { id = result.Value },
+                new { id = result.Value, result.Message });
         }
-
-        if (result.Message.Contains("already exists"))
-        {
-            return Conflict(new { Message = result.Message, Errors = result.Errors });
-        }
-        return BadRequest(new { Message = result.Message, Errors = result.Errors });
+        return BadRequest(new { result.Message, result.Errors });
     }
 
     /// <summary>
@@ -65,39 +60,11 @@ public class WalletsController : ControllerBase
 
         if (result.Succeeded)
         {
-            return Ok(result.Value);
+            return Ok(new {result.Message , result.Value});
         }
 
-        return NotFound(new { Message = result.Message, Errors = result.Errors });
+        return NotFound(new { result.Message, result.Errors });
     }
 
-    /// <summary>
-    /// Realiza una transferencia de saldo entre billeteras.
-    /// </summary>
-    /// <param name="command">Datos de la transferencia.</param>
-    /// <returns>Confirmación de la transferencia.</returns>
-    [HttpPost("transfer")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public async Task<IActionResult> TransferBalance([FromBody] TransferBalanceCommand command, CancellationToken cancellationToken)
-    {
-        var result = await _transferBalanceHandler.Handle(command, cancellationToken);
-
-        if (result.Succeeded)
-        {
-            return Ok(new { Message = result.Message });
-        }
-
-        if (result.Message.Contains("not found"))
-        {
-            return NotFound(new { Message = result.Message, Errors = result.Errors });
-        }
-        if (result.Message.Contains("Insufficient balance"))
-        {
-            return Conflict(new { Message = result.Message, Errors = result.Errors });
-        }
-        return BadRequest(new { Message = result.Message, Errors = result.Errors });
-    }
+    
 }

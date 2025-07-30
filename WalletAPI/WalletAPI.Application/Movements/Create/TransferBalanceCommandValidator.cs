@@ -14,5 +14,9 @@ public class TransferBalanceCommandValidator: AbstractValidator<TransferBalanceC
 
         RuleFor(x => x.Amount)
             .GreaterThan(0).WithMessage("El monto de transferencia debe ser mayo a 0.");
+
+        RuleFor(x => x)
+            .Must(x => x.SourceWalletId != x.DestinationWalletId)
+            .WithMessage("No se puede transferir a la misma billetera.");
     }
 }

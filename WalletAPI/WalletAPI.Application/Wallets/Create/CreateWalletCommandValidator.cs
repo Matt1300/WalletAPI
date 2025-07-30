@@ -8,7 +8,8 @@ public class CreateWalletCommandValidator: AbstractValidator<CreateWalletCommand
     {
         RuleFor(x => x.DocumentId)
             .NotEmpty().WithMessage("El documentoID es requerido.")
-            .MaximumLength(10).WithMessage("El documentoID no puede exceder de 10 dígitos.");
+            .Length(10).WithMessage("El documentoID debe tener exactamente 10 dígitos.")
+            .Matches(@"^\d{10}$").WithMessage("El documentoID debe contener solo números.");
 
         RuleFor(x => x.Name)
             .NotEmpty().WithMessage("El nombre es requerido.")

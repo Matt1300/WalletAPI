@@ -1,27 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WalletAPI.Application.DTOs;
-using WalletAPI.Application.Movements.Create;
 using WalletAPI.Application.Shared;
 using WalletAPI.Application.Wallets.Create;
+using WalletAPI.Application.Wallets.Delete;
 using WalletAPI.Application.Wallets.GetById;
+using WalletAPI.Application.Wallets.Update;
 
 namespace WalletAPI.API.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/wallets")]
 [ApiController]
-public class WalletsController : ControllerBase
+public class WalletsController(
+    ICommandHandler<CreateWalletCommand, Result<int>> _createWalletHandler,
+    ICommandHandler<DeleteWalletCommand, Result> _deleteWalletHandler,
+    IQueryHandler<GetWalletByIdQuery, Result<WalletDto>> _getWalletByIdHandler,
+    ICommandHandler<UpdateWalletCommand, Result> _updateWalletHandler)
+    : ControllerBase
 {
-    private readonly ICommandHandler<CreateWalletCommand, Result<int>> _createWalletHandler;
-    private readonly IQueryHandler<GetWalletByIdQuery, Result<WalletDto>> _getWalletByIdHandler;
-
-    public WalletsController(
-        ICommandHandler<CreateWalletCommand, Result<int>> createWalletHandler,
-        IQueryHandler<GetWalletByIdQuery, Result<WalletDto>> getWalletByIdHandler)
-    {
-        _createWalletHandler = createWalletHandler;
-        _getWalletByIdHandler = getWalletByIdHandler;
-    }
-
     /// <summary>
     /// Crea una nueva billetera.
     /// </summary>
@@ -59,11 +54,45 @@ public class WalletsController : ControllerBase
 
         if (result.Succeeded)
         {
-            return Ok(new {result.Message , result.Value});
+            return Ok(new { result.Message, result.Value });
         }
 
         return NotFound(new { result.Message, result.Errors });
     }
 
-    
+    /// <summary>
+    /// Elimina una billetera por su ID.
+    /// </summary>
+    /// <param name="id">ID de la billetera.</param>
+    /// <returns>No content.</returns>
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> DeleteWallet(int id, CancellationToken cancellationToken)
+    {
+        var command = new DeleteWalletCommand(id);
+        var result = await _deleteWalletHandler.Handle(command, cancellationToken);
+        if (result.Succeeded)
+        {
+            return Ok(new { result.Message });
+        }
+        return NotFound(new { result.Message, result.Errors });
+    }
+
+    [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> UpdateWallet(int id, [FromBody] UpdateWalletCommand command, CancellationToken cancellationToken)
+    {
+        var updateCommand = command with { Id = id };
+
+        var result = await _updateWalletHandler.Handle(updateCommand, cancellationToken);
+        if (result.Succeeded)
+        {
+            return Ok(new { result.Message });
+        }
+        return NotFound(new { result.Message, result.Errors });
+
+    }
 }

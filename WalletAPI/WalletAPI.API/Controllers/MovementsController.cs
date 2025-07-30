@@ -6,7 +6,7 @@ using WalletAPI.Application.Shared;
 
 namespace WalletAPI.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/movements")]
     [ApiController]
     public class MovementsController : ControllerBase
     {

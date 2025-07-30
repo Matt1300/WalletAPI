@@ -12,8 +12,6 @@
 
   <ItemGroup>
     <Folder Include="Wallets\Get\" />
-    <Folder Include="Wallets\Delete\" />
-    <Folder Include="Wallets\Update\" />
   </ItemGroup>
 
   <ItemGroup>

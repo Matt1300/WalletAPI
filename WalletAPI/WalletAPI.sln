@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36221.1 d17.14
+VisualStudioVersion = 17.14.36221.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalletAPI.Infrastructure", "WalletAPI.Infrastructure\WalletAPI.Infrastructure.csproj", "{E4366DC9-EC91-4491-9B44-0B3364E72B3E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalletAPI.API", "WalletAPI.API\WalletAPI.API.csproj", "{6371190B-DAD9-41FF-8B97-C8B143C396C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalletAPI.UnitTests", "WalletAPI.UnitTests\WalletAPI.UnitTests.csproj", "{F4D17157-F813-49B3-A48E-942C7D9BFD59}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,10 @@ Global
 		{6371190B-DAD9-41FF-8B97-C8B143C396C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6371190B-DAD9-41FF-8B97-C8B143C396C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6371190B-DAD9-41FF-8B97-C8B143C396C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4D17157-F813-49B3-A48E-942C7D9BFD59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4D17157-F813-49B3-A48E-942C7D9BFD59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4D17157-F813-49B3-A48E-942C7D9BFD59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4D17157-F813-49B3-A48E-942C7D9BFD59}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +52,7 @@ Global
 		{B816BCDD-078E-4180-B71C-402F5F9DCC21} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{E4366DC9-EC91-4491-9B44-0B3364E72B3E} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{6371190B-DAD9-41FF-8B97-C8B143C396C8} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{F4D17157-F813-49B3-A48E-942C7D9BFD59} = {77F020BE-8B8A-482F-987C-CE6BCCD47927}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {36911F52-1AAB-4147-9382-4E8384CC0076}

@@ -7,7 +7,7 @@ public enum MovementType
 public class Movement
 {
     public int Id { get; private set; }
-    public Guid WalletId { get; private set; }
+    public int WalletId { get; private set; }
     public decimal Amount { get; private set; }
     public MovementType Type { get; private set; }
     public DateTime CreatedAt { get; private set; }
@@ -16,7 +16,7 @@ public class Movement
 
     private Movement() { }
 
-    public Movement(Guid walletId, decimal amount, MovementType type)
+    public Movement(int walletId, decimal amount, MovementType type)
     {
         if (amount <= 0)
             throw new ArgumentException("El monto debe ser positivo.", nameof(amount));

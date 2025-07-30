@@ -11,7 +11,7 @@ public class GetWalletByIdQueryHandler(IWalletRepository _walletRepository) : IQ
         var wallet = await _walletRepository.GetByIdAsync(query.Id, cancellationToken);
         if (wallet == null)
         {
-            return Result.Failure<WalletDto>($"No se encontró una billetera con el ID {query.Id}.", ["El ID de la billetera no existe."]);
+            return Result.Failure<WalletDto>($"Ingrese un Id válido", [$"No se encontró una billetera con el ID {query.Id}."]);
         }
 
         var walletDto = new WalletDto

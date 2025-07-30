@@ -27,6 +27,20 @@ public class Wallet
         Movements = new List<Movement>();
     }
 
+    public void Update(string? documentId, string? name, decimal? balance)
+    {
+        if (!string.IsNullOrWhiteSpace(documentId))
+            DocumentId = documentId;
+
+        if (!string.IsNullOrWhiteSpace(name))
+            Name = name;
+
+        if (balance.HasValue)
+            Balance = balance.Value;
+
+        UpdatedAt = DateTime.UtcNow;
+    }
+
     public void Credit(decimal amount)
     {
         Balance += amount;

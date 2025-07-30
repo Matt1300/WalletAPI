@@ -11,8 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\" />
-    <Folder Include="Shared\" />
+    <Folder Include="Movements\Get\" />
+    <Folder Include="Wallets\Get\" />
+    <Folder Include="Wallets\Delete\" />
+    <Folder Include="Wallets\Update\" />
   </ItemGroup>
 
 </Project>

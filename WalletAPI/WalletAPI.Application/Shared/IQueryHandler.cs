@@ -2,7 +2,6 @@
 
 public interface IQueryHandler<TQuery, TResponse>
     where TQuery : IQuery<TResponse>
-    where TResponse : Result
 {
     /// <summary>
     /// Handles the query and returns a result.

@@ -11,10 +11,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Movements\Get\" />
     <Folder Include="Wallets\Get\" />
     <Folder Include="Wallets\Delete\" />
     <Folder Include="Wallets\Update\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="12.0.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
   </ItemGroup>
 
 </Project>

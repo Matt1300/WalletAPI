@@ -1,21 +1,24 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WalletAPI.Application.Interfaces;
 using WalletAPI.Domain.Entities;
 using WalletAPI.Infrastructure.Persistence;
 
 namespace WalletAPI.Infrastructure.Repositories;
-public class MovementRepository
+public class MovementRepository(ApplicationDbContext _context) : IMovementRepository
 {
-    private readonly ApplicationDbContext _context;
-
-    public MovementRepository(ApplicationDbContext context)
-    {
-        _context = context;
-    }
-
     public async Task AddAsync(Movement movement)
     {
         await _context.Movements.AddAsync(movement);
         await _context.SaveChangesAsync();
+    }
+
+    public Task<List<Movement>> GetAllTransfersAsync(CancellationToken cancellationToken)
+    {
+        return _context.Movements
+            .AsNoTracking()
+            .Include(m => m.Wallet)
+            .OrderByDescending(m => m.CreatedAt)
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<Movement> GetByIdAsync(int id)

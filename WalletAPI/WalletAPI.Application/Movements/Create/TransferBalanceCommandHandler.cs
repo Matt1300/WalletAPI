@@ -41,16 +41,6 @@ public class TransferBalanceCommandHandler(
 
     private Result Validate(TransferBalanceCommand command, Wallet sourceWallet, Wallet destinationWallet)
     {
-        if (command.SourceWalletId == command.DestinationWalletId)
-        {
-            return Result.Failure("No se puede transferir saldo a la misma billetera.", ["El destino de la transferencia no puede ser la misma billetera"]);
-        }
-
-        if (command.Amount <= 0)
-        {
-            return Result.Failure("El monto a transferir debe ser mayor que cero.", ["El monto debe ser positivo"]);
-        }
-
         if (sourceWallet == null)
         {
             return Result.Failure("No se encontró la billetera de origen.", ["La billetera de origen no existe."]);

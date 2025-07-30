@@ -11,7 +11,7 @@ public class CreateWalletCommandHandler (IWalletRepository _walletRepository): I
         var existingWallet = await _walletRepository.GetByDocumentIdAsync(command.DocumentId, cancellationToken);
         if (existingWallet != null)
         {
-            return Result.Failure<int>($"Ya existe una billetera con el documentoID {command.DocumentId}.", new[] {"El documentoID debe ser único."});
+            return Result.Failure<int>($"Ya existe una billetera con el documentoID {command.DocumentId}.", ["El documentoID debe ser único."]);
         }
 
         var wallet = new Wallet(command.DocumentId, command.Name);

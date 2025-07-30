@@ -1,18 +1,16 @@
-﻿using WalletAPI.Application.Interfaces;
-using WalletAPI.Application.Shared;
+﻿using WalletAPI.Application.Shared;
 using WalletAPI.Domain.Entities;
+using WalletAPI.Domain.Repositories;
 
 namespace WalletAPI.Application.Movements.Create;
 
-public class TransferBalanceCommandHandler(
-    IWalletRepository _walletRepository,
-    IMovementRepository _movementRepository)
+public class TransferBalanceCommandHandler(IUnitOfWork _unitOfWork)
     : ICommandHandler<TransferBalanceCommand, Result>
 {
     public async Task<Result> Handle(TransferBalanceCommand command, CancellationToken cancellationToken)
     {
-        var sourceWallet = await _walletRepository.GetByIdAsync(command.SourceWalletId, cancellationToken);
-        var destinationWallet = await _walletRepository.GetByIdAsync(command.DestinationWalletId, cancellationToken);
+        var sourceWallet = await _unitOfWork.Wallets.GetByIdAsync(command.SourceWalletId, cancellationToken);
+        var destinationWallet = await _unitOfWork.Wallets.GetByIdAsync(command.DestinationWalletId, cancellationToken);
 
         var validationResult = Validate(command, sourceWallet, destinationWallet);
         if (!validationResult.Succeeded)
@@ -21,18 +19,22 @@ public class TransferBalanceCommandHandler(
         sourceWallet.Debit(command.Amount);
         destinationWallet.Credit(command.Amount);
 
-        var debitMovement = new Movement(sourceWallet.Id, command.Amount, MovementType.Debit);
-        var creditMovement = new Movement(destinationWallet.Id, command.Amount, MovementType.Credit);
+        var debitMovement = new Movement(sourceWallet.Id, command.Amount, MovementType.Débito);
+        var creditMovement = new Movement(destinationWallet.Id, command.Amount, MovementType.Crédito);
 
         try
         {
-            await _walletRepository.UpdateAsync(sourceWallet, cancellationToken);
-            await _walletRepository.UpdateAsync(destinationWallet, cancellationToken);
-            await _movementRepository.AddAsync(debitMovement);
-            await _movementRepository.AddAsync(creditMovement);
+            await _unitOfWork.BeginTransactionAsync();
+            await _unitOfWork.Wallets.UpdateAsync(sourceWallet, cancellationToken);
+            await _unitOfWork.Wallets.UpdateAsync(destinationWallet, cancellationToken);
+            await _unitOfWork.Movements.AddAsync(debitMovement, cancellationToken);
+            await _unitOfWork.Movements.AddAsync(creditMovement, cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.CommitTransactionAsync();
         }
         catch (Exception ex)
         {
+            await _unitOfWork.RollbackTransactionAsync();
             return Result.Failure("Un error ocurrió durante la transferencia.", [ex.Message]);
         }
 

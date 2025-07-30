@@ -9,13 +9,11 @@ public class WalletRepository (ApplicationDbContext _context) : IWalletRepositor
     public async Task AddAsync(Wallet wallet, CancellationToken cancellationToken = default)
     {
         await _context.Wallets.AddAsync(wallet);
-        await _context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(Wallet wallet, CancellationToken cancellationToken = default)
     {
         _context.Wallets.Remove(wallet);
-        await _context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task<IEnumerable<Wallet>> GetAllAsync(CancellationToken cancellationToken = default)
@@ -36,6 +34,5 @@ public class WalletRepository (ApplicationDbContext _context) : IWalletRepositor
     public async Task UpdateAsync(Wallet wallet, CancellationToken cancellationToken = default)
     {
         _context.Wallets.Update(wallet);
-        await _context.SaveChangesAsync(cancellationToken);
     }
 }

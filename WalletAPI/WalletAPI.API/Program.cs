@@ -5,6 +5,7 @@ using WalletAPI.Application.Interfaces;
 using WalletAPI.Application.Movements.Create;
 using WalletAPI.Application.Shared;
 using WalletAPI.Application.Wallets.Create;
+using WalletAPI.Domain.Repositories;
 using WalletAPI.Infrastructure.Persistence;
 using WalletAPI.Infrastructure.Repositories;
 
@@ -21,6 +22,7 @@ namespace WalletAPI.API
 
             builder.Services.AddScoped<IWalletRepository, WalletRepository>();
             builder.Services.AddScoped<IMovementRepository, MovementRepository>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             builder.Services.Scan(scan => scan
                 .FromAssemblies(typeof(Result).Assembly)

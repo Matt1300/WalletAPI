@@ -6,10 +6,9 @@ using WalletAPI.Infrastructure.Persistence;
 namespace WalletAPI.Infrastructure.Repositories;
 public class MovementRepository(ApplicationDbContext _context) : IMovementRepository
 {
-    public async Task AddAsync(Movement movement)
+    public async Task AddAsync(Movement movement, CancellationToken cancellationToken)
     {
-        await _context.Movements.AddAsync(movement);
-        await _context.SaveChangesAsync();
+        await _context.Movements.AddAsync(movement, cancellationToken);
     }
 
     public Task<List<Movement>> GetAllTransfersAsync(CancellationToken cancellationToken)
@@ -21,16 +20,16 @@ public class MovementRepository(ApplicationDbContext _context) : IMovementReposi
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<Movement> GetByIdAsync(int id)
+    public async Task<Movement> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        return await _context.Movements.FindAsync(id);
+        return await _context.Movements.FindAsync(id, cancellationToken);
     }
 
-    public async Task<IEnumerable<Movement>> GetByWalletIdAsync(int walletId)
+    public async Task<IEnumerable<Movement>> GetByWalletIdAsync(int walletId, CancellationToken cancellationToken)
     {
         return await _context.Movements
                              .Where(m => m.WalletId == walletId)
                              .OrderByDescending(m => m.CreatedAt)
-                             .ToListAsync();
+                             .ToListAsync(cancellationToken);
     }
 }

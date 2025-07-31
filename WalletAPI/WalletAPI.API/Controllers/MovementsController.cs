@@ -35,7 +35,7 @@ namespace WalletAPI.API.Controllers
 
             if (result.Succeeded)
             {
-                return Ok(result.Message);
+                return Ok(new { result.Message });
             }
 
             return BadRequest(new { result.Message, result.Errors });
